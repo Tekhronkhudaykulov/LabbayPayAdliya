@@ -82,7 +82,10 @@ const PaymentOfFinesSidebar = () => {
     onSuccess: async (res: any) => {
       setResponseData(res?.labbay_transaction_id);
       if(refoundSum > 0) {
-         axios.post(`http://localhost:5555/cash/api/CashDevice/DispenseValue?deviceID=${deviceID}` ).then(() => (
+         axios.post(`http://localhost:5555/cash/api/CashDevice/DispenseValue?deviceID=${deviceID}`, {
+            Value: refoundSum * 100,
+            CountryCode: "UZS"
+         } ).then(() => (
           navigate(APP_ROUTES.SUCCESS)
          )).catch(() => (
           navigate(APP_ROUTES.REFOUND)
