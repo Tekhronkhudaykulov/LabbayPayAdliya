@@ -75,7 +75,11 @@ const PaymentOfFinesSidebar = () => {
       setResponseData(res?.labbay_transaction_id);
 
       if (refoundSum > 0) {
-        navigate(APP_ROUTES.REFOUND);
+        axios.post(`http://localhost:5555/cash/api/CashDevice/DispenseValue?deviceID=${deviceID}`).then(() => {
+          navigate(APP_ROUTES.SUCCESS);
+        }).catch (() => {
+           navigate(APP_ROUTES.REFOUND);
+        })
       } else {
         navigate(APP_ROUTES.SUCCESS);
       }
@@ -89,12 +93,15 @@ const PaymentOfFinesSidebar = () => {
     const backendAmount = responseData?.vendorForm?.static_amount || 0;
     const refundAmount = data - backendAmount;
 
-    if (refundAmount > 0) {
+    if (refundAmount > 0 && backendAmount > 0) {
       setRefoundSum(refundAmount);
     }
     mutate({
       endpoint: endpoints.createPay,
-      body: responseData?.vendorForm
+      body: {
+        ...responseData?.vendorForm,
+        static_amount: backendAmount ?? data
+      }
     });
   };
 
