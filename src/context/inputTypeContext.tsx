@@ -11,9 +11,11 @@ export const FormProvider = ({ children }) => {
   const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState();
   const [check, setCheck] = useState();
+  const [refoundSum, setRefoundSum] = useState(0)
 
 
   const setValue = (key, value) => {
+    
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -39,7 +41,9 @@ export const FormProvider = ({ children }) => {
         setError,
         error,
         check, 
-        setCheck
+        setCheck,
+        setRefoundSum,
+        refoundSum
       }}
     >
       {children}

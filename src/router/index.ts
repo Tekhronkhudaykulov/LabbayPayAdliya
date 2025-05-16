@@ -31,5 +31,6 @@ export const APP_ROUTES = {
   QR: "/qr",
   PAYMENT_INFO: "/payment-info",
   PAY_TO_CARD: "/payToCard",
-  PAY_CARD_CONFIRM: "/pay-confirm-card"
+  PAY_CARD_CONFIRM: "/pay-confirm-card",
+  REFOUND: "/refound"
 };

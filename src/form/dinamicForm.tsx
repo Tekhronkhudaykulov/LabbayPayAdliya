@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import Select from "react-select";
 import InputMask from "react-input-mask";
 import { useFormContext } from "../context/inputTypeContext";
@@ -30,6 +30,8 @@ const DynamicForm = ({ fields, formData, setFormData }) => {
   // @ts-ignore
   const { setActiveInputKey, setActiveInputType, setValue, form } = useFormContext();
 
+  
+
   const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
@@ -47,10 +49,22 @@ const DynamicForm = ({ fields, formData, setFormData }) => {
     });
   }, [fields]);
 
-  // 🔵 Region ID ni olish (formdan)
-  const selectedRegionId = String(form["region_id"] || "");
+  const regionField = fields.find(f => f.key === "SOATO");
+  const districtField = fields.find(f => f.key === "region_id");
+  
+  
+  // const selectedRegionValue = formData["region_id"]; // masalan: "03"
+  
+  const regionOption = regionField?.options?.filter(
+    (opt) => {
+      const reg = districtField.options.find(el => el.value == form.region_id)
+      if(reg?.id == opt.group_id) return opt
+    }
+  );
 
-  // 🔵 Custom Select styling
+
+  
+
   const customSelectStyles = {
     control: (base) => ({
       ...base,
@@ -106,14 +120,11 @@ const DynamicForm = ({ fields, formData, setFormData }) => {
             );
           }
 
-          // 🔵 Districtni region_id bo‘yicha filter qilish
           let options = field.options || [];
-          if (field.key === "district_id") {
-            options = options.filter(
-              (opt) => String(opt.group_id) === selectedRegionId
-            );
-          }
 
+            if (field.key === "SOATO" && regionOption) {
+              options = regionOption
+            }
           return (
             <motion.div
               key={field.id}

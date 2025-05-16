@@ -65,7 +65,10 @@ const PaymentInfo = lazy(() => import("./paymentOfFines/components/PaymentInfo")
 
 const PayToCard = lazy(() => import("./payToCard/view"));
 
-const PayConfirmCard = lazy(() => import("./payToCard/PayToCardConfirm"))
+const PayConfirmCard = lazy(() => import("./payToCard/PayToCardConfirm"));
+
+const Refound = lazy(() => import("./refound/view"));
+
 
 
 export {
@@ -101,5 +104,6 @@ export {
   Qr,
   PaymentInfo,
   PayToCard,
-  PayConfirmCard
+  PayConfirmCard,
+  Refound
 };

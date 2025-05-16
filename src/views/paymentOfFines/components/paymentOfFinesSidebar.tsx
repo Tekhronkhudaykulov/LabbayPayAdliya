@@ -28,13 +28,19 @@ const fadeUp = {
 const PaymentOfFinesSidebar = () => {
   const [data, setData] = useState(0);
 
+
   const deviceID = localStorage.getItem("device_id");
 
   const navigate = useNavigate();
   // @ts-ignore
-  const { responseData, setResponseData, clearForm, setError, error } =
+  const { responseData, setResponseData, clearForm, setError, error, setRefoundSum,refoundSum } =
     useFormContext();
 
+ console.log(responseData, 'data');
+ 
+    
+
+    
   useEffect(() => {
     axios
       .post(
@@ -49,7 +55,7 @@ const PaymentOfFinesSidebar = () => {
             setResponseData((prevState: any) => ({
               ...prevState,
               vendorForm: {
-                ...prevState.vendorForm,
+                ...prevState.vendor_form,
                 static_amount: updated,
               },
             }));
@@ -63,11 +69,26 @@ const PaymentOfFinesSidebar = () => {
       });
   }, []);
 
+
+  useEffect(() => {
+    if(responseData?.vendor_form?.static_amount) {
+      // @ts-ignore
+      setRefoundSum(Number(data) - Number(responseData?.vendor_form?.static_amount))
+    }
+  },[])
+
+
   const { mutate, isPending, isError } = useCustomPost({
     onSuccess: async (res: any) => {
-      setResponseData(res);
+      setResponseData(res?.labbay_transaction_id);
+      if(refoundSum > 0) {
+         axios.post(`http://localhost:5555/cash/api/CashDevice/DispenseValue?deviceID=${deviceID}` ).then(() => (
+          navigate(APP_ROUTES.SUCCESS)
+         )).catch(() => (
+          navigate(APP_ROUTES.REFOUND)
+         ))
+      }
       await clearForm();
-      setResponseData(res?.labbay_transaction_id)
       navigate(`${APP_ROUTES.SUCCESS}`);
     },
     onError: (err) => {

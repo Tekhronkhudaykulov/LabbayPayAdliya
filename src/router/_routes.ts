@@ -32,7 +32,8 @@ import {
   Qr,
   PaymentInfo,
   PayToCard,
-  PayConfirmCard
+  PayConfirmCard,
+  Refound
 } from "../views";
 
 export const _routes = [
@@ -81,6 +82,10 @@ export const _routes = [
   {
     path: APP_ROUTES.PAYMENT_OF_FINE,
     element: PaymentOfFines,
+  },
+  {
+    path: APP_ROUTES.REFOUND,
+    element: Refound,
   },
   {
     path: APP_ROUTES.PAYMENT_OF_FINE,
