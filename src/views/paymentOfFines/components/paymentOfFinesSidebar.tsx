@@ -30,11 +30,17 @@ const PaymentOfFinesSidebar = () => {
 
   const deviceID = localStorage.getItem("device_id");
 
+
   const navigate = useNavigate();
   // @ts-ignore
   const { responseData, setResponseData, clearForm, setError, error, setRefoundSum, refoundSum } =
     useFormContext();
 
+
+  const backendAmount = responseData?.vendorForm?.static_amount || 0;
+
+
+    
     
   useEffect(() => {
     axios
@@ -44,6 +50,12 @@ const PaymentOfFinesSidebar = () => {
       .then(() => {
         socket.on("add-cash", (incoming) => {
           const added = (incoming?.value || 0) / 100;
+         if(backendAmount > 0) {
+          setData((prev: any) => {
+            const updated = prev + added;
+            return updated;
+          });
+         }else {
           setData((prev: any) => {
             const updated = prev + added;
 
@@ -57,6 +69,8 @@ const PaymentOfFinesSidebar = () => {
 
             return updated;
           });
+         }
+         
         });
         return () => {
           socket.off("add-cash");
@@ -71,7 +85,7 @@ const PaymentOfFinesSidebar = () => {
 
   const { mutate, isPending, isError } = useCustomPost({
     onSuccess: async (res: any) => {
-     await clearForm();
+      await clearForm();
       setResponseData(res?.labbay_transaction_id);
 
       if (refoundSum > 0) {
@@ -90,7 +104,8 @@ const PaymentOfFinesSidebar = () => {
   });
 
   const handleSubmit = () => {
-    const backendAmount = responseData?.vendorForm?.static_amount || 0;
+    console.log(responseData, 'responsoviveData');
+    
     const refundAmount = data - backendAmount;
 
     if (refundAmount > 0 && backendAmount > 0) {
@@ -98,10 +113,7 @@ const PaymentOfFinesSidebar = () => {
     }
     mutate({
       endpoint: endpoints.createPay,
-      body: {
-        ...responseData?.vendorForm,
-        static_amount: backendAmount ?? data
-      }
+      body: responseData?.vendorForm,
     });
   };
 
@@ -206,13 +218,14 @@ const PaymentOfFinesSidebar = () => {
             showPrevButton={data >= 900}
             nextDisabled={data <= 900}
             nextClick={() => {
-              axios
-                .post(
-                  `http://localhost:5555/cash/api/CashDevice/StopDevice?deviceID=${deviceID}`
-                )
-                .then(() => {
-                   handleSubmit();
-                });
+              // axios
+              //   .post(
+              //     `http://localhost:5555/cash/api/CashDevice/StopDevice?deviceID=${deviceID}`
+              //   )
+              //   .then(() => {
+                   
+              //   });
+              handleSubmit();
             }}
           />
         </>
