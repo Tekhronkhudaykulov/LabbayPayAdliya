@@ -1,0 +1,44 @@
+.check {
+  width: 300px;
+  font-size: 20px !important;
+}
+.check-title {
+  font-size: 18px;
+  text-align: center;
+  font-family: sans-serif;
+  margin-bottom: 4px;
+}
+.check-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3px;
+  border-bottom: 1px dashed black;
+}
+.check-left-text {
+  font-size: 14px;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+.check-right-text {
+  font-size: 14px;
+  text-align: right;
+  font-family: sans-serif;
+}
+.check-qr-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.check-qr {
+  width: 200px;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.thanks-text {
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  border-top: 1px dashed black;
+}

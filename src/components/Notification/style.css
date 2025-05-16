@@ -1,0 +1,45 @@
+.notification {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  height: 200px;
+  background-color: black;
+  padding: 15px 30px;
+  border-radius: 8px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  opacity: 0; /* Dastlab yashirin */
+  background: linear-gradient(to bottom, #000000, #66666600);
+  z-index: 1000;
+}
+
+.notification.slide-down {
+  transform: translateX(-50%) translateY(20px);
+  opacity: 1; /* Ko'rinadigan */
+}
+
+.slide-down-item {
+  transform: translateY(75px);
+  opacity: 1; /* Ko'rinadigan */
+}
+
+.notification.slide-up {
+  transform: translateX(-50%) translateY(-100px);
+  opacity: 0; /* Yashirin */
+}
+
+.slide-up-item {
+  transform: translateY(-100px);
+  opacity: 1; /* Ko'rinadigan */
+}
+
+.notification.show {
+  top: 20px; /* Ko'rinadigan joy */
+  opacity: 1; /* Ko'rinadigan */
+}
+
+.notification.hide {
+  top: -100px; /* Pastga tushib yo'qolish */
+  opacity: 0; /* Yashirin */
+}

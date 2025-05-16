@@ -1,0 +1,9 @@
+/node_modules
+/release/
+/*.exe
+*.asar
+node_modules
+release
+*.exe
+*.asar
+*.dat
